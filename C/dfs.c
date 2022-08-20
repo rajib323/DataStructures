@@ -1,45 +1,61 @@
-#include <stdio.h>
-#include <stdlib.h>
-int source,V,E,time,visited[20],G[20][20];
-void DFS(int i)
+//imeplement DFS
+// 1 for ready (wait for stack), 2 for running (inside stack) 3 for execute (print)
+#include<stdio.h>
+#define MAX 10
+int top;
+void push(char s[], char k)
 {
- int j;
- visited[i]=1;
- printf(" %d->",i+1);
- for(j=0;j<V;j++)
- {
- if(G[i][j]==1&&visited[j]==0)
- DFS(j);
- }
-}
-int main()
-{
- int i,j,v1,v2;
- printf("\t\t\tGraphs\n");
- printf("Enter the no of edges:");
- scanf("%d",&E);
- printf("Enter the no of vertices:");
- scanf("%d",&V);
- for(i=0;i<V;i++)
- {
- for(j=0;j<V;j++)
- G[i][j]=0;
- }
- for(i=0;i<E;i++)
- {
- printf("Enter the edges (format: V1 V2) : ");
- scanf("%d%d",&v1,&v2);
- G[v1-1][v2-1]=1;
- }
- for(i=0;i<V;i++)
- {
- for(j=0;j<V;j++)
- printf(" %d ",G[i][j]);
- printf("\n");
- }
- printf("Enter the source: ");
- scanf("%d",&source);
- DFS(source-1);
- return 0;
+    if(top==MAX-1)
+     printf("\n overflow");
+    else
+     s[++top]=k;
 }
 
+char pop(char s[])
+{
+    return s[top--];
+}
+void main()
+{
+    char stack[MAX],item;
+    int a[MAX][MAX];
+    int n,i,j,p,e;
+    int s[MAX];
+    top=-1;
+    
+    printf("Enter no. of vertex ");
+    scanf("%d",&n);
+    printf("\n enter value \n");
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            scanf("%d",&a[i][j]);
+        }
+    }
+    for(i=0;i<MAX;i++)
+     s[i]=1; // assign ready state for each node  ///initlaise
+     
+    printf("A ");
+    s[0]=3; // execute [initialize]
+    e=1;//AS first node already execute
+    p=0;// as execute first node
+    while(e<n)
+    {
+        for(j=0;j<MAX;j++)
+        {
+            if(a[p][j]==1 && s[j]==1)    //a[p][j]=1 neighbour
+            {
+              push(stack,(char)(j+65));
+              s[j]=2;// update to running 
+            }
+        }
+        item=pop(stack);
+        p=(int)item-65; 
+        s[p]=3; //update to execute
+        printf(" %c",item);
+        e++; // execute one element
+    }
+    
+    
+}

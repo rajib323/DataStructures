@@ -1,38 +1,78 @@
+//imeplement BFS
+// 1 for ready (wait for q), 2 for running (inside q) 3 for execute (print)
 #include<stdio.h>
-int a[20][20], q[20], visited[20], n, i, j, f = 0, r = -1;
-void bfs(int v) {
-for(i = 1; i <= n; i++)
-if(a[v][i] && !visited[i])
-q[++r] = i;
-if(f <= r) {
-visited[q[f]] = 1;
-bfs(q[f++]);
+#define MAX 10
+int front,rear;
+void insert(char s[], char k)
+{
+    if(rear==MAX-1)
+     printf("\n overflow");
+    else
+    {
+        if(rear==-1)
+        {
+            front=0;
+            rear=0;
+            s[rear]=k;
+        }
+        else
+        s[++rear]=k;
+    }
 }
+
+char Delete(char s[])
+{
+    char t=s[front];
+    if(front==rear)
+    {
+        front=-1;
+        rear=-1;
+    }
+    else
+     front++;
+    return t;
 }
-void main() {
-int v;
-printf("\n Enter the number of vertices:");
-scanf("%d", &n);
-for(i=1; i <= n; i++) {
-q[i] = 0;
-visited[i] = 0;
-}
-printf("\n Enter graph data in matrix form:\n");
-for(i=1; i<=n; i++) {
-for(j=1;j<=n;j++) {
-scanf("%d", &a[i][j]);
-}
-}
-printf("\n Enter the starting vertex:");
-scanf("%d", &v);
-bfs(v);
-printf("\n The node which are reachable are:\n");
-for(i=1; i <= n; i++) {
-if(visited[i])
-printf("%d\t", i);
-else {
-printf("\n Bfs is not possible. Not all nodes are reachable");
-break;
-}
-}
+void main()
+{
+    char queue[MAX],item;
+    int a[MAX][MAX];
+    int n,i,j,p,e;
+    int s[MAX];
+    front=-1,rear=-1;
+    
+    printf("Enter no. of vertex ");
+    scanf("%d",&n);
+    printf("\n enter value \n");
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            scanf("%d",&a[i][j]);
+        }
+    }
+    for(i=0;i<MAX;i++)
+     s[i]=1; // assign ready state for each node
+     
+    printf("A");
+    s[0]=3; // execute [initialize]
+    e=1;//AS first node already execute
+    p=0;// as execute first node
+    while(e<n)
+    {
+        for(j=0;j<MAX;j++)
+        {
+            if(a[p][j]==1 && s[j]==1)    //a[p][j]=1 neighbour
+            {
+              insert(queue,(char)(j+65));
+              s[j]=2;// update to running 
+            }
+        }
+        item=Delete(queue);
+        p=(int)item-65; 
+        s[p]=3; //update to execute
+        printf(" %c",item);
+        e++; // execute one element
+    }
+    
+    
 }

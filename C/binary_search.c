@@ -3,15 +3,15 @@ int main()
 {
   int c, first, last, middle, n, search, array[100];
 
-  printf("Enter number of elements\n");
+  printf("\n\nEnter number of elements : ");
   scanf("%d", &n);
 
-  printf("Enter %d integers\n", n);
+  printf("\n\nEnter %d integers : ", n);
 
   for (c = 0; c < n; c++)
     scanf("%d", &array[c]);
 
-  printf("Enter value to find\n");
+  printf("\n\nEnter value to find : ");
   scanf("%d", &search);
 
   first = 0;
@@ -22,7 +22,7 @@ int main()
     if (array[middle] < search)
       first = middle + 1;
     else if (array[middle] == search) {
-      printf("%d found at location %d.\n", search, middle+1);
+      printf("\nItem %d found at location %d.", search, middle+1);
       break;
     }
     else
@@ -31,7 +31,7 @@ int main()
     middle = (first + last)/2;
   }
   if (first > last)
-    printf("Not found! %d isn't present in the list.\n", search);
+    printf("\nNot found! %d isn't present in the list.", search);
 
   return 0;
 }
